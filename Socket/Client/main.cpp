@@ -4,10 +4,12 @@ unsigned main(void)
 {
 	CTCPClient<int> client("127.0.0.1");
 
+    client.Start();
+
 	//‘—M
 	while (TRUE)
 	{
-		static int data = 100;
+		static int data = 10;
 		data--;
 		int s = client.Send(data);
 		printf("%d Bytes Send\n", s);
@@ -20,5 +22,6 @@ unsigned main(void)
 		Sleep(1000);
 	}
 
+	Sleep(1000);
 	return 0;
 }

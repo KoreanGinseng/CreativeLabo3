@@ -7,33 +7,44 @@
     </Filter>
     <Filter Include="ヘッダー ファイル">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Socket">
+      <UniqueIdentifier>{7e16d83f-1cb9-43d3-841c-b38f2b1a6951}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="WinMain.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\SocketDefine.cpp">
+    <ClCompile Include="GameApp.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="TCPMultiServer.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="..\TCPSocket\SocketDefine.cpp">
+      <Filter>Socket</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Common\SocketDefine.h">
+    <ClInclude Include="GameApp.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\MySocket.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="..\TCPSocket\MySocket.h">
+      <Filter>Socket</Filter>
     </ClInclude>
-    <ClInclude Include="TCPMultiServer.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="..\TCPSocket\SocketDefine.h">
+      <Filter>Socket</Filter>
     </ClInclude>
+    <ClInclude Include="..\TCPSocket\TCPClient.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Version.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

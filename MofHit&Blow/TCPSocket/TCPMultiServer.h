@@ -1,6 +1,5 @@
 #pragma once
-#include "../Common/MySocket.h"
-#include <vector>
+#include "MySocket.h"
 
 // ********************************************************************************
 /// <summary>
@@ -9,8 +8,8 @@
 // ********************************************************************************
 struct ClientData
 {
-	bool   bConnect{ false };
-	SOCKET Socket  { 0 };
+    bool   bConnect;
+    SOCKET Socket;
 };
 
 // ********************************************************************************
@@ -18,19 +17,16 @@ struct ClientData
 /// 複数人接続サーバー
 /// </summary>
 // ********************************************************************************
-class CTCPMultiServer : public 
+template< class T, int N = 10 >
+class CTCPMultiServer : public CMySocket< T >
 {
 protected:
 
-    using MySocket = CMySocket;
-	CMySocket				 m_Accept;
-	std::vector<ClientData>  m_Client{ 10, ClientData() };
-    HANDLE                   m_hAcceptThread;
+    using MySocket = CMySocket<T>;
+    
+    ClientData  m_Client[N];
+    HANDLE      m_hAcceptThread;
 
-	struct Header {
-		int Type;
-		int Size;
-	};
 public:
 
     // ********************************************************************************
@@ -41,7 +37,14 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-	explicit CTCPMultiServer(unsigned int multiCount = 10, int portNo = 18900, bool bStart = false);
+    explicit CTCPMultiServer(int portNo = 18900, bool bStart = false)
+    {
+        MySocket::m_PortNo = portNo;
+        if (bStart)
+        {
+            Start();
+        }
+    }
 
     // ********************************************************************************
     /// <summary>
@@ -50,7 +53,25 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-	virtual ~CTCPMultiServer(void);
+    virtual ~CTCPMultiServer(void)
+    {
+        if (!MySocket::m_bStart)
+        {
+            return;
+        }
+        closesocket(MySocket::m_Socket);
+        for (int i = 0; i < N; i++)
+        {
+            if (!m_Client[i].bConnect)
+            {
+                continue;
+            }
+            closesocket(m_Client[i].Socket);
+        }
+        //スレッドの停止待機
+        WaitForSingleObject(m_hAcceptThread, INFINITE);
+        CloseHandle(m_hAcceptThread);
+    }
 
     // ********************************************************************************
     /// <summary>
@@ -59,7 +80,22 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-	void Start(void);
+    void Start(void)
+    {
+        MySocket::Start();
+        //クライアントの情報を初期化
+        memset(m_Client, 0, sizeof(m_Client));
+        //接続待機スレッドの開始
+        m_hAcceptThread = 
+            (HANDLE)_beginthreadex(
+                NULL,
+                0,
+                AcceptThread,
+                this,
+                0,
+                NULL
+            );
+    }
 
     // ********************************************************************************
     /// <summary>
@@ -74,8 +110,7 @@ public:
     {
         CTCPMultiServer* pms = reinterpret_cast<CTCPMultiServer*>(pData);
         ClientData* pClient = nullptr;
-		int size = pms->m_Client.size();
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < N; i++)
         {
             if (pms->m_Client[i].bConnect)
             {
@@ -87,13 +122,8 @@ public:
         pClient->bConnect = true;
         while (true)
         {
-			Header Data;
-            int size = recv(pClient->Socket, (char*)&Data, sizeof(Data), 0);
-
-			if (h->Type == 0)
-			{
-				return pClient->Socket.Receiver<int>();
-			}
+            T Data;
+            int size = recv(pClient->Socket, (char*)&Data, sizeof(T), 0);
             pms->Recieve(Data, size);
             if (size <= 0)
             {
@@ -156,8 +186,7 @@ public:
             {
                 break;
             }
-			int size = pms->m_Client.size();
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < N; i++)
             {
                 if (pms->m_Client[i].bConnect)
                 {
@@ -211,3 +240,4 @@ public:
     // ********************************************************************************
     virtual void Recieve(const T& data, int size) override {}
 };
+

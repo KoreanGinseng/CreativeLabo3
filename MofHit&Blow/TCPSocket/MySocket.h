@@ -6,6 +6,7 @@
 /// ソケット通信用インターフェース
 /// </summary>
 // ********************************************************************************
+template< class T >
 class CMySocket
 {
 protected:
@@ -92,8 +93,7 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-	template< class T >
-	int Send(const T& data)
+    virtual int Send(const T& data)
     {
         return send(m_Socket, (char*)&data, sizeof(T), 0);
     }
@@ -107,13 +107,7 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-	template< class T >
-	const T Recieve(const T& data, int size) const
-	{
-		T Data;
-		recv(m_Socket, (char*)&Data, sizeof(T), 0);
-		return Data;
-	}
+    virtual void Recieve(const T& data, int size) = 0;
 
     // ********************************************************************************
     /// <summary>

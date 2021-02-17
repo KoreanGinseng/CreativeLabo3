@@ -38,4 +38,15 @@ enum WSASTATE
     WSASTATE_CLEANUP,
 };
 
+// ********************************************************************************
+/// <summary>
+/// 
+/// </summary>
+// ********************************************************************************
+struct DataHeader
+{
+    int Type;
+    int Size;
+};
+
 extern WSASTATE g_WsaState;

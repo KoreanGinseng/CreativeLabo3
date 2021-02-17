@@ -123,11 +123,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Common\MySocket.cpp" />
     <ClCompile Include="..\Common\SocketDefine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TCPClient.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Common\MySocket.h" />
     <ClInclude Include="..\Common\SocketDefine.h" />
     <ClInclude Include="TCPClient.h" />
   </ItemGroup>

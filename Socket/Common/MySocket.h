@@ -14,10 +14,36 @@ protected:
     SOCKETERROR m_Error{ SOCKETERROR::ERROR_NONE };     //! ソケットエラー
     int         m_PortNo;                               //! ポート番号
     bool        m_bStart;                               //! 開始フラグ
+    SOCKET      m_tSocket;
 
 public:
 
-    CMySocket(void) = default;
+    // ********************************************************************************
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    static void StartUp(void);
+
+    // ********************************************************************************
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    static void CleanUp(void);
+
+    // ********************************************************************************
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    CMySocket(void);
     
     // ********************************************************************************
     /// <summary>
@@ -26,14 +52,7 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    virtual ~CMySocket(void)
-    {
-        if (g_WsaState != WSASTATE_CLEANUP)
-        {
-            g_WsaState = WSASTATE_CLEANUP;
-            WSACleanup();
-        }
-    }
+    virtual ~CMySocket(void);
 
     // ********************************************************************************
     /// <summary>
@@ -42,20 +61,7 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    virtual void Init(void)
-    {
-        //WSAStartUp
-        if (g_WsaState != WSASTATE_INIT)
-        {
-            g_WsaState = WSASTATE_INIT;
-            WSAData wsaData;
-            int ret = WSAStartup(MAKEWORD(2, 2), &wsaData);
-            if (ret != 0)
-            {
-                m_Error = SOCKETERROR::ERROR_INIT;
-            }
-        }
-    }
+    virtual void Init(void);
 
     // ********************************************************************************
     /// <summary>
@@ -64,10 +70,103 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    virtual void Start(void)
+    virtual void Start(void);
+
+    // ********************************************************************************
+    /// <summary>
+    /// アクセプト
+    /// </summary>
+    /// <returns>ソケットゥ</returns>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    virtual SOCKET* Accept(void);
+
+    // ********************************************************************************
+    /// <summary>
+    /// ソケットの作成
+    /// </summary>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    virtual void Create(void);
+
+    // ********************************************************************************
+    /// <summary>
+    /// ソケットをバインド
+    /// </summary>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    virtual void Bind(void);
+
+    // ********************************************************************************
+    /// <summary>
+    /// ソケットの接続
+    /// </summary>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    virtual void Connect(const std::string& ip);
+
+    // ********************************************************************************
+    /// <summary>
+    /// 接続待機状態にする
+    /// </summary>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    virtual void Listen(void);
+
+    // ********************************************************************************
+    /// <summary>
+    /// ソケットを閉じる
+    /// </summary>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    inline void CloseSocket(void)
     {
-        Init();
-        m_bStart = true;
+        closesocket(m_Socket);
+    }
+
+    // ********************************************************************************
+    /// <summary>
+    /// ソケットの取得
+    /// </summary>
+    /// <returns>ソケット</returns>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    inline const SOCKET& GetSocket(void) const
+    {
+        return m_Socket;
+    }
+
+    // ********************************************************************************
+    /// <summary>
+    /// ポート番号の設定
+    /// </summary>
+    /// <param name="portNo">ポート番号</param>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    inline void SetPortNo(int portNo) noexcept
+    {
+        m_PortNo = portNo;
+    }
+
+    // ********************************************************************************
+    /// <summary>
+    /// ポート番号の取得
+    /// </summary>
+    /// <returns>ポート番号</returns>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    inline int GetPortNo(void) const noexcept
+    {
+        return m_PortNo;
     }
 
     // ********************************************************************************
@@ -78,42 +177,72 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    const bool IsStart(void) const noexcept
+    inline const bool IsStart(void) const noexcept
     {
         return m_bStart;
     }
 
+	// ********************************************************************************
+	/// <summary>
+	/// 送信
+	/// </summary>
+	/// <param name="pData">送信データ</param>
+	/// <param name="datalen">送信データサイズ</param>
+	/// <returns>送信データサイズ</returns>
+	/// <created>いのうえ,2021/02/16</created>
+	/// <changed>いのうえ,2021/02/18</changed>
+	// ********************************************************************************
+	inline int Send(const void* pData, int datalen)
+    {
+        return send(m_Socket, reinterpret_cast<const char*>(pData), datalen, 0);
+    }
+
+	// ********************************************************************************
+	/// <summary>
+	/// 受信
+	/// </summary>
+	/// <param name="outData">書き出しデータ先</param>
+	/// <returns>受信データサイズ</returns>
+	/// <created>いのうえ,2021/02/16</created>
+	/// <changed>いのうえ,2021/02/17</changed>
+	// ********************************************************************************
+	template< class T >
+	inline int Recieve(T& outData) const
+	{
+		T Data;
+        int size = recv(m_Socket, (char*)&Data, sizeof(T), 0);
+        outData  = Data;
+		return size;
+	}
+
     // ********************************************************************************
     /// <summary>
-    /// 送信
+    /// 受信
     /// </summary>
-    /// <param name="data">送信データ</param>
-    /// <returns>送信データサイズ</returns>
-    /// <created>いのうえ,2021/02/16</created>
-    /// <changed>いのうえ,2021/02/16</changed>
+	/// <param name="outData">書き出しデータ先</param>
+    /// <param name="datalen">受信データサイズ</param>
+	/// <returns>受信データサイズ</returns>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
     // ********************************************************************************
-	template< class T >
-	int Send(const T& data)
+    inline int Recieve(char* outData, int datalen) const
     {
-        return send(m_Socket, (char*)&data, sizeof(T), 0);
+        int size = recv(m_Socket, outData, datalen, 0);
+        return size;
     }
 
     // ********************************************************************************
     /// <summary>
-    /// 受信データを好きにする関数
+    /// 
     /// </summary>
-    /// <param name="data">受信データ</param>
-    /// <param name="size">受信データサイズ</param>
-    /// <created>いのうえ,2021/02/16</created>
-    /// <changed>いのうえ,2021/02/16</changed>
+    /// <param name="socket"></param>
+    /// <created>いのうえ,2021/02/18</created>
+    /// <changed>いのうえ,2021/02/18</changed>
     // ********************************************************************************
-	template< class T >
-	const T Recieve(const T& data, int size) const
-	{
-		T Data;
-		recv(m_Socket, (char*)&Data, sizeof(T), 0);
-		return Data;
-	}
+    inline void SetSocket(SOCKET* socket) noexcept
+    {
+        m_Socket = *socket;
+    }
 
     // ********************************************************************************
     /// <summary>
@@ -123,9 +252,22 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    const bool operator()(void) const noexcept
+    inline const bool operator()(void) const noexcept
     {
         return (m_Error == SOCKETERROR::ERROR_NONE);
+    }
+
+    // ********************************************************************************
+    /// <summary>
+    /// ソケットとして取得
+    /// </summary>
+    /// <returns>ソケット</returns>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    operator const SOCKET& (void) const noexcept
+    {
+        return m_Socket;
     }
 
     // ********************************************************************************
@@ -136,7 +278,7 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    const SOCKETERROR GetError(void) const noexcept
+    inline const SOCKETERROR GetError(void) const noexcept
     {
         return m_Error;
     }

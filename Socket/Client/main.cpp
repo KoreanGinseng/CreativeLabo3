@@ -12,6 +12,11 @@ struct GameData3 : public DataHeader
 {
     float       data;
 };
+struct GameData4
+{
+    DataHeader h;
+    GameData   data;
+};
 
 class CMyClient : public CTCPClient
 {
@@ -22,6 +27,7 @@ public:
     void Recieve(const DataHeader& h, const void* p, int s) override
     {
         printf("type : %d\n", h.Type);
+        printf("myid : %d\n", m_Socket.GetId());
         switch (h.Type)
         {
         case 0:
@@ -43,6 +49,16 @@ unsigned main(void)
     CMyClient client("127.0.0.1");
 
     client.Start();
+
+    GameData4 gd0;
+    GameData  gd4;
+    gd0.h.Type = 3;
+    gd0.h.Size = sizeof(gd0.data);
+    gd4.Type   = 0;
+    gd4.Size   = sizeof(gd4.data);
+    gd4.data   = 4;
+    gd0.data   = gd4;
+    client.Send(&gd0, sizeof(gd0));
 
 	//ëóêM
 	while (TRUE)

@@ -47,11 +47,20 @@ unsigned int __stdcall CTCPClient::RecieveThread(void * pData)
         DataHeader header;
         char   data[2048];
         int    headerSize = pClient->m_Socket.Recieve<DataHeader>(header);
+        if (headerSize <= 0)
+        {
+            break;
+        }
         int    dataSize   = pClient->m_Socket.Recieve(data, header.Size);
 
         if (dataSize <= 0)
         {
             break;
+        }
+
+        if (header.Type == DATATYPE_SETID)
+        {
+            pClient->m_Socket.SetId(*(reinterpret_cast<int*>(data)));
         }
 
         pClient->Recieve(header, reinterpret_cast<void*>(data), dataSize);

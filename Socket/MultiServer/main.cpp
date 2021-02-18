@@ -41,6 +41,10 @@ public:
         case 2:
             printf("case 2: %f\n", *(reinterpret_cast<const float*>(p)));
             break;
+        case 3:
+            Send(p, size);
+            printf("case 3: BroadCast\n");
+            break;
         }
     }
 

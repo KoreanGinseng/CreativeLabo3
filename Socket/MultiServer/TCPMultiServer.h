@@ -18,13 +18,15 @@ struct ClientData
 /// 複数人接続サーバー
 /// </summary>
 // ********************************************************************************
-class CTCPMultiServer 
+class CTCPMultiServer
 {
 protected:
 
-	CMySocket				 m_Accept;
-	std::vector<ClientData>  m_Client{ 10, ClientData() };
-    HANDLE                   m_hAcceptThread;
+    CMySocket				          m_Accept;
+    std::vector<ClientData>           m_Client{ 10, ClientData() };
+    std::vector<std::pair<int, bool>> m_IdList{ 10, std::pair<int, bool>(0, false) };
+    HANDLE                            m_hAcceptThread;
+    int                               m_OwnerId{ -1 };
 
 public:
 
@@ -36,7 +38,7 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-	explicit CTCPMultiServer(unsigned int multiCount = 10, int portNo = 18900, bool bStart = false);
+    explicit CTCPMultiServer(unsigned int multiCount = 10, int portNo = 18900, bool bStart = false);
 
     // ********************************************************************************
     /// <summary>
@@ -45,7 +47,7 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-	virtual ~CTCPMultiServer(void);
+    virtual ~CTCPMultiServer(void);
 
     // ********************************************************************************
     /// <summary>
@@ -54,7 +56,22 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-	void Start(void);
+    void Start(void);
+
+    // ********************************************************************************
+    /// <summary>
+    /// 送信
+    /// </summary>
+    /// <param name="pData">送信データ</param>
+    /// <param name="datalen"></param>
+    /// <param name="sendType"></param>
+    /// <param name="ids"></param>
+    /// <param name="idlen"></param>
+    /// <returns></returns>
+    /// <created>いのうえ,2021/02/18</created>
+    /// <changed>いのうえ,2021/02/18</changed>
+    // ********************************************************************************
+    int Send(const void* pData, int datalen, const SENDTYPE& sendType = SENDTYPE_BROADCAST, int* ids = nullptr, int idlen = 0);
 
     // ********************************************************************************
     /// <summary>
@@ -120,4 +137,12 @@ public:
     /// <changed>いのうえ,2021/02/17</changed>
     // ********************************************************************************
     virtual void Recieve(const DataHeader& header, const void* data, int datalen) {}
+
+private:
+
+    int SendBroadCast(const void* pData, int datalen);
+    int SendOtherCast(const void* pData, int datalen, int sendid);
+    int SendUniqueCast(const void* pData, int datalen, int id);
+    int SendMultiCast(const void* pData, int datalen, int* ids, int idlen);
+    int SendOwnerCast(const void* pData, int datalen);
 };

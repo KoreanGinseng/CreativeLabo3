@@ -3,6 +3,12 @@
 CTCPMultiServer::CTCPMultiServer(unsigned int multiCount, int portNo, bool bStart)
 {
 	m_Client.resize(multiCount);
+	m_IdList.resize(multiCount);
+    int size = m_IdList.size();
+    for (int i = 0; i < size; i++)
+    {
+        m_IdList[i].first = i;
+    }
 	m_Accept.SetPortNo(portNo);
 	if (bStart)
 	{
@@ -50,6 +56,24 @@ void CTCPMultiServer::Start(void)
 		);
 }
 
+int CTCPMultiServer::Send(const void * pData, int datalen, const SENDTYPE & sendType, int * ids, int idlen)
+{
+    switch (sendType)
+    {
+    case SENDTYPE_BROADCAST:
+        return SendBroadCast(pData, datalen);
+    case SENDTYPE_OTHERCAST:
+        return SendOtherCast(pData, datalen, ids[0]);
+    case SENDTYPE_UNIQUECAST:
+        return SendUniqueCast(pData, datalen, ids[0]);
+    case SENDTYPE_MULTICAST:
+        return SendMultiCast(pData, datalen, ids, idlen);
+    case SENDTYPE_OWNERCAST:
+        return SendOwnerCast(pData, datalen);
+    }
+    return 0;
+}
+
 unsigned int __stdcall CTCPMultiServer::RecieveThread(void * pData)
 {
     CTCPMultiServer* pms = reinterpret_cast<CTCPMultiServer*>(pData);
@@ -84,6 +108,11 @@ unsigned int __stdcall CTCPMultiServer::RecieveThread(void * pData)
         pms->Recieve(header, reinterpret_cast<void*>(data), dataSize);
     }
     pClient->bConnect = false;
+    auto id           = std::find_if(
+        pms->m_IdList.begin(), pms->m_IdList.end(),
+        [&](const std::pair<int, bool>& v) {return v.first == pClient->Socket.GetId(); }
+    );
+    id->second        = false;
     pms->DisConnect();
     _endthreadex(NULL);
     return 0;
@@ -116,6 +145,21 @@ unsigned int __stdcall CTCPMultiServer::AcceptThread(void * pData)
             }
             //受信スレッドの開始
             pms->m_Client[i].Socket.SetSocket(ts);
+            if (pms->m_OwnerId == -1)
+            {
+                pms->m_OwnerId = pms->m_Client[i].Socket.GetId();
+            }
+            auto id = std::find_if(pms->m_IdList.begin(), pms->m_IdList.end(), [](const std::pair<int, bool>& v) {return v.second == false; });
+            id->second = true;
+            pms->m_Client[i].Socket.SetId(id->first);
+            struct IDData : public DataHeader
+            {
+                int id;
+            } data;
+            data.Type = DATATYPE_SETID;
+            data.id   = id->first;
+            data.Size = sizeof(data.id);
+            pms->m_Client[i].Socket.Send(&data, sizeof(data));
             pms->Connect();
             HANDLE hRecvThread =
                 (HANDLE)_beginthreadex(
@@ -131,4 +175,53 @@ unsigned int __stdcall CTCPMultiServer::AcceptThread(void * pData)
     }
     _endthreadex(NULL);
     return 0;
+}
+
+int CTCPMultiServer::SendBroadCast(const void * pData, int datalen)
+{
+    int s    = 0;
+    int size = m_Client.size();
+    for (int i = 0; i < size; i++)
+    {
+        s += m_Client[i].Socket.Send(pData, datalen);
+    }
+    return s;
+}
+
+int CTCPMultiServer::SendOtherCast(const void * pData, int datalen, int sendid)
+{
+    int s    = 0;
+    int size = m_Client.size();
+    for (int i = 0; i < size; i++)
+    {
+        if (m_Client[i].Socket.GetId() == sendid)
+        {
+            continue;
+        }
+        s += m_Client[i].Socket.Send(pData, datalen);
+    }
+    return s;
+}
+
+int CTCPMultiServer::SendUniqueCast(const void * pData, int datalen, int id)
+{
+    auto v = std::find_if(m_Client.begin(), m_Client.end(), [&](const ClientData& v) {return v.Socket.GetId() == id; });
+    int  s = v->Socket.Send(pData, datalen);
+    return s;
+}
+
+int CTCPMultiServer::SendMultiCast(const void * pData, int datalen, int * ids, int idlen)
+{
+    int s = 0;
+    for (int i = 0; i < idlen; i++)
+    {
+        s += SendUniqueCast(pData, datalen, ids[i]);
+    }
+    return s;
+}
+
+int CTCPMultiServer::SendOwnerCast(const void * pData, int datalen)
+{
+    int s = SendUniqueCast(pData, datalen, m_OwnerId);
+    return s;
 }

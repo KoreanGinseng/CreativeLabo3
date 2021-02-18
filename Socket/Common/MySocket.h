@@ -15,6 +15,7 @@ protected:
     int         m_PortNo;                               //! ポート番号
     bool        m_bStart;                               //! 開始フラグ
     SOCKET      m_tSocket;
+    int         m_Id;
 
 public:
 
@@ -128,6 +129,32 @@ public:
     inline void CloseSocket(void)
     {
         closesocket(m_Socket);
+    }
+
+    // ********************************************************************************
+    /// <summary>
+    /// IDの設定
+    /// </summary>
+    /// <param name="id">id</param>
+    /// <created>いのうえ,2021/02/18</created>
+    /// <changed>いのうえ,2021/02/18</changed>
+    // ********************************************************************************
+    inline void SetId(int id)
+    {
+        m_Id = id;
+    }
+
+    // ********************************************************************************
+    /// <summary>
+    /// IDの取得
+    /// </summary>
+    /// <returns>id</returns>
+    /// <created>いのうえ,2021/02/18</created>
+    /// <changed>いのうえ,2021/02/18</changed>
+    // ********************************************************************************
+    inline int GetId(void) const
+    {
+        return m_Id;
     }
 
     // ********************************************************************************

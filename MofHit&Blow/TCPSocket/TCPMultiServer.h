@@ -1,5 +1,6 @@
 #pragma once
-#include "MySocket.h"
+#include "../Common/MySocket.h"
+#include <vector>
 
 // ********************************************************************************
 /// <summary>
@@ -8,8 +9,8 @@
 // ********************************************************************************
 struct ClientData
 {
-    bool   bConnect;
-    SOCKET Socket;
+	bool      bConnect{ false };
+    CMySocket Socket;
 };
 
 // ********************************************************************************
@@ -17,15 +18,17 @@ struct ClientData
 /// 複数人接続サーバー
 /// </summary>
 // ********************************************************************************
-template< class T, int N = 10 >
-class CTCPMultiServer : public CMySocket< T >
+class CTCPMultiServer
 {
 protected:
 
-    using MySocket = CMySocket<T>;
-    
-    ClientData  m_Client[N];
-    HANDLE      m_hAcceptThread;
+    using UseId_t = std::pair<int, bool>;
+
+    CMySocket				 m_Accept;                                           
+    std::vector<ClientData>  m_Client{ 10, ClientData() };
+    std::vector<UseId_t>     m_IdList{ 10, UseId_t(0, false) };
+    HANDLE                   m_hAcceptThread;
+    int                      m_OwnerId{ -1 };
 
 public:
 
@@ -37,14 +40,7 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    explicit CTCPMultiServer(int portNo = 18900, bool bStart = false)
-    {
-        MySocket::m_PortNo = portNo;
-        if (bStart)
-        {
-            Start();
-        }
-    }
+    explicit CTCPMultiServer(unsigned int multiCount = 10, int portNo = 18900, bool bStart = false);
 
     // ********************************************************************************
     /// <summary>
@@ -53,25 +49,7 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    virtual ~CTCPMultiServer(void)
-    {
-        if (!MySocket::m_bStart)
-        {
-            return;
-        }
-        closesocket(MySocket::m_Socket);
-        for (int i = 0; i < N; i++)
-        {
-            if (!m_Client[i].bConnect)
-            {
-                continue;
-            }
-            closesocket(m_Client[i].Socket);
-        }
-        //スレッドの停止待機
-        WaitForSingleObject(m_hAcceptThread, INFINITE);
-        CloseHandle(m_hAcceptThread);
-    }
+    virtual ~CTCPMultiServer(void);
 
     // ********************************************************************************
     /// <summary>
@@ -80,135 +58,56 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    void Start(void)
-    {
-        MySocket::Start();
-        //クライアントの情報を初期化
-        memset(m_Client, 0, sizeof(m_Client));
-        //接続待機スレッドの開始
-        m_hAcceptThread = 
-            (HANDLE)_beginthreadex(
-                NULL,
-                0,
-                AcceptThread,
-                this,
-                0,
-                NULL
-            );
-    }
+    void Start(void);
+
+    // ********************************************************************************
+    /// <summary>
+    /// 送信
+    /// </summary>
+    /// <param name="pData">送信データ</param>
+    /// <param name="datalen">データのサイズ</param>
+    /// <param name="sendType">データの種類</param>
+    /// <param name="ids">送り先ID</param>
+    /// <param name="idlen">送るIDの数</param>
+    /// <returns>送ったサイズ</returns>
+    /// <created>いのうえ,2021/02/18</created>
+    /// <changed>いのうえ,2021/02/18</changed>
+    // ********************************************************************************
+    int Send(const void* pData, int datalen, const SENDTYPE& sendType = SENDTYPE_BROADCAST, int* ids = nullptr, int idlen = 0);
 
     // ********************************************************************************
     /// <summary>
     /// 受信用スレッド
     /// </summary>
-    /// <param name="pData">data</param>
+    /// <param name="pData">this</param>
     /// <returns>0 : 正常終了, それ以外 : エラー</returns>
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    static unsigned int WINAPI RecieveThread(void* pData)
-    {
-        CTCPMultiServer* pms = reinterpret_cast<CTCPMultiServer*>(pData);
-        ClientData* pClient = nullptr;
-        for (int i = 0; i < N; i++)
-        {
-            if (pms->m_Client[i].bConnect)
-            {
-                continue;
-            }
-            pClient = &(pms->m_Client[i]);
-            break;
-        }
-        pClient->bConnect = true;
-        while (true)
-        {
-            T Data;
-            int size = recv(pClient->Socket, (char*)&Data, sizeof(T), 0);
-            pms->Recieve(Data, size);
-            if (size <= 0)
-            {
-                break;
-            }
-        }
-        pClient->bConnect = false;
-        pms->DisConnect();
-        _endthreadex(NULL);
-        return 0;
-    }
+    static unsigned int WINAPI RecieveThread(void* pData);
 
     // ********************************************************************************
     /// <summary>
     /// 接続用スレッド
     /// </summary>
-    /// <param name="pData">data</param>
+    /// <param name="pData">this</param>
     /// <returns>0 : 正常終了, それ以外 : エラー</returns>
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    static unsigned int WINAPI AcceptThread(void* pData)
-    {
-        CTCPMultiServer* pms = reinterpret_cast<CTCPMultiServer*>(pData);
-        //ソケットの作成
-        pms->m_Socket = socket(AF_INET, SOCK_STREAM, 0);
-        if (pms->m_Socket == INVALID_SOCKET)
-        {
-            pms->m_Error = SOCKETERROR::ERROR_CREATE;
-        }
-        //アドレス構造体
-        struct sockaddr_in tmp_addr;
-        memset(&tmp_addr, 0, sizeof(struct sockaddr_in));
-        //ネットワークのデータを設定
-        tmp_addr.sin_family      = AF_INET;
-        tmp_addr.sin_port        = htons(pms->m_PortNo);
-        tmp_addr.sin_addr.s_addr = ADDR_ANY;
-        //アドレスとソケットをバインド
-        if ((bind(pms->m_Socket, (struct sockaddr*)&tmp_addr, sizeof(struct sockaddr))) == SOCKET_ERROR)
-        {
-            pms->m_Error = SOCKETERROR::ERROR_BIND;
-            closesocket(pms->m_Socket);
-        }
-        //接続待機状態にする
-        if ((listen(pms->m_Socket, SOMAXCONN)) == SOCKET_ERROR)
-        {
-            pms->m_Error = SOCKETERROR::ERROR_LISTEN;
-            closesocket(pms->m_Socket);
-        }
+    static unsigned int WINAPI AcceptThread(void* pData);
 
-        while (true)
-        {
-            //接続してきたアドレス情報
-            SOCKADDR_IN ta;
-            //アドレス構造体のサイズ
-            int addrin_size = sizeof(SOCKADDR_IN);
-            //接続待ち
-            SOCKET ts = accept(pms->m_Socket, (struct sockaddr*)&ta, &addrin_size);
-            if (ts == INVALID_SOCKET)
-            {
-                break;
-            }
-            for (int i = 0; i < N; i++)
-            {
-                if (pms->m_Client[i].bConnect)
-                {
-                    continue;
-                }
-                //受信スレッドの開始
-                pms->m_Client[i].Socket = ts;
-                pms->Connect();
-                HANDLE hRecvThread = 
-                    (HANDLE)_beginthreadex(
-                        NULL,
-                        0,
-                        RecieveThread,
-                        pms,
-                        0,
-                        NULL
-                    );
-                break;
-            }
-        }
-        _endthreadex(NULL);
-        return 0;
+    // ********************************************************************************
+    /// <summary>
+    /// エラーの取得
+    /// </summary>
+    /// <returns>エラーの取得</returns>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    inline const SOCKETERROR GetError(void) const
+    {
+        return m_Accept.GetError();
     }
 
     // ********************************************************************************
@@ -218,7 +117,7 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    virtual void Connect(void) {};
+    virtual void Connect(void) {}
 
     // ********************************************************************************
     /// <summary>
@@ -227,17 +126,25 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    virtual void DisConnect(void) {};
+    virtual void DisConnect(void) {}
 
     // ********************************************************************************
     /// <summary>
     /// 受信データを好きにする関数
     /// </summary>
+    /// <param name="header">データヘッダ</param>
     /// <param name="data">受信データ</param>
-    /// <param name="size">受信データサイズ</param>
+    /// <param name="datalen">受信データサイズ</param>
     /// <created>いのうえ,2021/02/16</created>
-    /// <changed>いのうえ,2021/02/16</changed>
+    /// <changed>いのうえ,2021/02/17</changed>
     // ********************************************************************************
-    virtual void Recieve(const T& data, int size) override {}
-};
+    virtual void Recieve(const DataHeader& header, const void* data, int datalen) {}
 
+private:
+
+    int SendBroadCast(const void* pData, int datalen);
+    int SendOtherCast(const void* pData, int datalen, int sendid);
+    int SendUniqueCast(const void* pData, int datalen, int id);
+    int SendMultiCast(const void* pData, int datalen, int* ids, int idlen);
+    int SendOwnerCast(const void* pData, int datalen);
+};

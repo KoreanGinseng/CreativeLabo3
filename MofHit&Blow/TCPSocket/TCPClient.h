@@ -6,14 +6,15 @@
 /// 
 /// </summary>
 // ********************************************************************************
-template < class T >
-class CTCPClient : public CMySocket< T >
+class CTCPClient
 {
 protected:
 
-    using MySocket = CMySocket<T>;
+    CMySocket   m_Socket;         //! ソケット君
 
-    std::string m_IP; //! 接続先IPアドレス
+    std::string m_IP;             //! 接続先IPアドレス
+
+    HANDLE      m_hRecieveThread; //! 受信スレッド
 
 public:
 
@@ -26,11 +27,7 @@ public:
 	/// <created>いのうえ,2021/02/16</created>
 	/// <changed>いのうえ,2021/02/16</changed>
 	// ********************************************************************************
-	CTCPClient(const char* ip = "", int portNo = 18900)
-	{
-        m_IP               = ip;
-        MySocket::m_PortNo = portNo;
-	}
+    CTCPClient(const char* ip = "", int portNo = 18900);
 
 	// ********************************************************************************
 	/// <summary>
@@ -39,10 +36,7 @@ public:
 	/// <created>いのうえ,2021/02/16</created>
 	/// <changed>いのうえ,2021/02/16</changed>
 	// ********************************************************************************
-	virtual ~CTCPClient(void)
-	{
-		closesocket(MySocket::m_Socket);
-	}
+    virtual ~CTCPClient(void);
 
     // ********************************************************************************
     /// <summary>
@@ -52,11 +46,7 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    void Start(const char* ip)
-    {
-        m_IP = ip;
-        Start();
-    }
+    void Start(const char* ip);
 
     // ********************************************************************************
     /// <summary>
@@ -65,29 +55,29 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    void Start(void) override
-    {
-        MySocket::Start();
-        //ソケットの作成
-        MySocket::m_Socket = socket(AF_INET, SOCK_STREAM, 0);
-        if (MySocket::m_Socket == INVALID_SOCKET)
-        {
-            MySocket::m_Error = SOCKETERROR::ERROR_CREATE;
-        }
+    void Start(void);
 
-        //アドレス構造体
-        struct sockaddr_in tmp_addr;
-        memset(&tmp_addr, 0, sizeof(struct sockaddr_in));
-        //ネットワークのデータを設定
-        tmp_addr.sin_family      = AF_INET;
-        tmp_addr.sin_port        = htons(MySocket::m_PortNo);
-        tmp_addr.sin_addr.s_addr = inet_addr(m_IP.c_str());
-        if (connect(MySocket::m_Socket, (struct sockaddr*)&tmp_addr, sizeof(struct sockaddr_in)) == SOCKET_ERROR)
-        {
-            closesocket(MySocket::m_Socket);
-            MySocket::m_Error = SOCKETERROR::ERROR_CONNECT;
-        }
-    }
+    // ********************************************************************************
+    /// <summary>
+    /// 受信スレッド
+    /// </summary>
+    /// <param name="pData">this</param>
+    /// <returns>0 : 正常終了, それ以外 : 異常終了</returns>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    static unsigned int WINAPI RecieveThread(void* pData);
+
+    // ********************************************************************************
+    /// <summary>
+    /// データの送信
+    /// </summary>
+    /// <param name="pData">送信データポインタ</param>
+    /// <param name="datalen">送信データのサイズ</param>
+    /// <created>いのうえ,2021/02/17</created>
+    /// <changed>いのうえ,2021/02/17</changed>
+    // ********************************************************************************
+    virtual int Send(const void* pData, int datalen);
 
     // ********************************************************************************
     /// <summary>
@@ -98,6 +88,6 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    virtual void Recieve(const T& data, int size) override {}
+    virtual void Recieve(const DataHeader& header, const void* data, int size) {}
 };
 

@@ -22,11 +22,13 @@ class CTCPMultiServer
 {
 protected:
 
-    CMySocket				          m_Accept;
-    std::vector<ClientData>           m_Client{ 10, ClientData() };
-    std::vector<std::pair<int, bool>> m_IdList{ 10, std::pair<int, bool>(0, false) };
-    HANDLE                            m_hAcceptThread;
-    int                               m_OwnerId{ -1 };
+    using UseId_t = std::pair<int, bool>;
+
+    CMySocket				 m_Accept;                                           
+    std::vector<ClientData>  m_Client{ 10, ClientData() };
+    std::vector<UseId_t>     m_IdList{ 10, UseId_t(0, false) };
+    HANDLE                   m_hAcceptThread;
+    int                      m_OwnerId{ -1 };
 
 public:
 
@@ -63,11 +65,11 @@ public:
     /// 送信
     /// </summary>
     /// <param name="pData">送信データ</param>
-    /// <param name="datalen"></param>
-    /// <param name="sendType"></param>
-    /// <param name="ids"></param>
-    /// <param name="idlen"></param>
-    /// <returns></returns>
+    /// <param name="datalen">データのサイズ</param>
+    /// <param name="sendType">データの種類</param>
+    /// <param name="ids">送り先ID</param>
+    /// <param name="idlen">送るIDの数</param>
+    /// <returns>送ったサイズ</returns>
     /// <created>いのうえ,2021/02/18</created>
     /// <changed>いのうえ,2021/02/18</changed>
     // ********************************************************************************

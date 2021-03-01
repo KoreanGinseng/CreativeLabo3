@@ -96,14 +96,42 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\TCPSocket\SocketDefine.cpp" />
+    <ClCompile Include="BackRender.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="FileDialog.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameApp.cpp" />
+    <ClCompile Include="MatchWait.cpp" />
+    <ClCompile Include="NumButtons.cpp" />
+    <ClCompile Include="PlaySetting.cpp" />
+    <ClCompile Include="ResourceFont.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="ServerSelect.cpp" />
+    <ClCompile Include="StopWatch.cpp" />
+    <ClCompile Include="Title.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\TCPSocket\GameDataDefine.h" />
     <ClInclude Include="..\TCPSocket\MySocket.h" />
     <ClInclude Include="..\TCPSocket\SocketDefine.h" />
     <ClInclude Include="..\TCPSocket\TCPClient.h" />
+    <ClInclude Include="AssetBase.h" />
+    <ClInclude Include="BackRender.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="FileDialog.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameApp.h" />
+    <ClInclude Include="MatchWait.h" />
+    <ClInclude Include="NumButtons.h" />
+    <ClInclude Include="PlaySetting.h" />
+    <ClInclude Include="ResourceFont.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="SceneDefine.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ServerSelect.h" />
+    <ClInclude Include="StopWatch.h" />
+    <ClInclude Include="Title.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Version.rc" />

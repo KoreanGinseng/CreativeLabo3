@@ -1,6 +1,12 @@
 #pragma once
 #include "SocketDefine.h"
 
+enum class Protocol
+{
+	TCP,
+	UDP,
+};
+
 // ********************************************************************************
 /// <summary>
 /// ソケット通信用インターフェース
@@ -8,14 +14,20 @@
 // ********************************************************************************
 class CMySocket
 {
+public:
+
+	static constexpr int AddressInSize = sizeof(SOCKADDR_IN); //! アドレス構造体のサイズ
+
 protected:
 
-    SOCKET      m_Socket;                               //! ソケット
-    SOCKETERROR m_Error{ SOCKETERROR::ERROR_NONE };     //! ソケットエラー
-    int         m_PortNo;                               //! ポート番号
-    bool        m_bStart;                               //! 開始フラグ
-    SOCKET      m_TellSocket;                           //! 受け入れソケット
-    int         m_Id;                                   //! 接続ID
+    SOCKET             m_Socket;                              //! ソケット
+    SOCKETERROR        m_Error{ SOCKETERROR::ERROR_NONE };    //! ソケットエラー
+    int                m_PortNo;                              //! ポート番号
+    bool               m_bStart;                              //! 開始フラグ
+    SOCKET             m_TellSocket;                          //! 受け入れソケット
+    int                m_Id;                                  //! 接続ID
+	SOCKADDR_IN        m_TellAddress;                         //! 接続してきたアドレス情報
+	struct sockaddr_in m_MyAddress;                           //! アドレス構造体
 
 public:
 
@@ -81,7 +93,7 @@ public:
     /// <created>いのうえ,2021/02/17</created>
     /// <changed>いのうえ,2021/02/17</changed>
     // ********************************************************************************
-    virtual void Create(void);
+    virtual void Create(Protocol prot);
 
     // ********************************************************************************
     /// <summary>
@@ -202,6 +214,58 @@ public:
 
 	// ********************************************************************************
 	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
+	/// <created>いのうえ,2021/03/02</created>
+	/// <changed>いのうえ,2021/03/02</changed>
+	// ********************************************************************************
+	inline unsigned short GetRecivePortNo(void) const noexcept
+	{
+		return ntohs(m_TellAddress.sin_port);
+	}
+
+	// ********************************************************************************
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
+	/// <created>いのうえ,2021/03/02</created>
+	/// <changed>いのうえ,2021/03/02</changed>
+	// ********************************************************************************
+	inline unsigned short GetBindPortNo(void) const noexcept
+	{
+		return ntohs(m_MyAddress.sin_port);
+	}
+
+	// ********************************************************************************
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
+	/// <created>いのうえ,2021/03/02</created>
+	/// <changed>いのうえ,2021/03/02</changed>
+	// ********************************************************************************
+	inline const char* GetReciveIP(void) const noexcept
+	{
+		return inet_ntoa(m_TellAddress.sin_addr);
+	}
+
+	// ********************************************************************************
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
+	/// <created>いのうえ,2021/03/02</created>
+	/// <changed>いのうえ,2021/03/02</changed>
+	// ********************************************************************************
+	inline const char* GetBindIP(void) const noexcept
+	{
+		return inet_ntoa(m_MyAddress.sin_addr);
+	}
+
+	// ********************************************************************************
+	/// <summary>
 	/// 送信
 	/// </summary>
 	/// <param name="pData">送信データ</param>
@@ -214,6 +278,22 @@ public:
     {
         return send(m_Socket, reinterpret_cast<const char*>(pData), datalen, 0);
     }
+
+	// ********************************************************************************
+	/// <summary>
+	/// 送信
+	/// </summary>
+	/// <param name="pData">送信データ</param>
+	/// <param name="datalen">送信データサイズ</param>
+	/// <returns>送信データサイズ</returns>
+	/// <created>いのうえ,2021/02/16</created>
+	/// <changed>いのうえ,2021/02/18</changed>
+	// ********************************************************************************
+	inline int SendTo(const void* pData, int datalen, SOCKADDR* to)
+	{
+		int tosize = AddressInSize;
+		return sendto(m_Socket, reinterpret_cast<const char*>(pData), datalen, 0, to, tosize);
+	}
 
 	// ********************************************************************************
 	/// <summary>
@@ -232,6 +312,25 @@ public:
         outData  = Data;
 		return size;
 	}
+	
+	// ********************************************************************************
+	/// <summary>
+	/// 受信
+	/// </summary>
+	/// <param name="outData">書き出しデータ先</param>
+	/// <returns>受信データサイズ</returns>
+	/// <created>いのうえ,2021/02/16</created>
+	/// <changed>いのうえ,2021/02/17</changed>
+	// ********************************************************************************
+	template< class T >
+	inline int RecieveFrom(T& outData, SOCKADDR* from) const
+	{
+		int fromsize = AddressInSize;
+		T Data;
+		int size = recvfrom(m_Socket, (char*)&Data, sizeof(T), 0, from, &fromsize);
+		outData = Data;
+		return size;
+	}
 
     // ********************************************************************************
     /// <summary>
@@ -248,6 +347,23 @@ public:
         int size = recv(m_Socket, outData, datalen, 0);
         return size;
     }
+	
+	// ********************************************************************************
+	/// <summary>
+	/// 受信
+	/// </summary>
+	/// <param name="outData">書き出しデータ先</param>
+	/// <param name="datalen">受信データサイズ</param>
+	/// <returns>受信データサイズ</returns>
+	/// <created>いのうえ,2021/02/17</created>
+	/// <changed>いのうえ,2021/02/17</changed>
+	// ********************************************************************************
+	inline int RecieveFrom(char* outData, int datalen, SOCKADDR* from) const
+	{
+		int fromsize = AddressInSize;
+		int size = recvfrom(m_Socket, outData, datalen, 0, from, &fromsize);
+		return size;
+	}
 
     // ********************************************************************************
     /// <summary>

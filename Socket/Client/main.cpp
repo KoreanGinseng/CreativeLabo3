@@ -18,11 +18,11 @@ struct GameData4
     GameData   data;
 };
 
-class CMyClient : public CTCPClient
+class CMyClient : public CClient
 {
 public:
 
-    CMyClient(const char* s) : CTCPClient(s) {}
+    CMyClient(const char* s) : CClient(s) {}
 
     void Recieve(const DataHeader& h, const void* p, int s) override
     {

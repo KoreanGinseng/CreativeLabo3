@@ -1,0 +1,3 @@
+//ソケットのブロッキングを解除する
+u_long val = 1;
+ioctlsocket(tsock, FIONBIO, &val);

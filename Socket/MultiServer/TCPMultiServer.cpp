@@ -175,7 +175,7 @@ unsigned int __stdcall CTCPMultiServer::AcceptThread(void * pData)
 {
     CTCPMultiServer* pms = reinterpret_cast<CTCPMultiServer*>(pData);
     //ソケットの作成
-    pms->m_Accept.Create();
+    pms->m_Accept.Create(Protocol::TCP);
     //ソケットをバインド
     pms->m_Accept.Bind();
     //接続待機状態にする

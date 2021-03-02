@@ -84,12 +84,9 @@ void CMySocket::Start(void)
 // ********************************************************************************
 SOCKET * CMySocket::Accept(void)
 {
-    //接続してきたアドレス情報
-    SOCKADDR_IN ta;
-    //アドレス構造体のサイズ
-    int addrin_size = sizeof(SOCKADDR_IN);
+    int addrin_size = AddressInSize;
     //接続待ち
-    m_TellSocket = accept(m_Socket, (struct sockaddr*)&ta, &addrin_size);
+    m_TellSocket = accept(m_Socket, (struct sockaddr*)&m_TellAddress, &addrin_size);
     return &m_TellSocket;
 }
 
@@ -100,10 +97,14 @@ SOCKET * CMySocket::Accept(void)
 /// <created>いのうえ,2021/02/17</created>
 /// <changed>いのうえ,2021/02/17</changed>
 // ********************************************************************************
-void CMySocket::Create(void)
+void CMySocket::Create(Protocol prot)
 {
     //ソケットの作成
-    m_Socket = socket(AF_INET, SOCK_STREAM, 0);
+    m_Socket = socket(
+		AF_INET,
+		(prot == Protocol::TCP) ? SOCK_STREAM : SOCK_DGRAM,
+		0
+	);
     if (m_Socket == INVALID_SOCKET)
     {
         m_Error = SOCKETERROR::ERROR_CREATE;
@@ -126,15 +127,13 @@ void CMySocket::Create(void)
 // ********************************************************************************
 void CMySocket::Bind(void)
 {
-    //アドレス構造体
-    struct sockaddr_in tmp_addr;
-    memset(&tmp_addr, 0, sizeof(struct sockaddr_in));
+    memset(&m_MyAddress, 0, sizeof(struct sockaddr_in));
     //ネットワークのデータを設定
-    tmp_addr.sin_family      = AF_INET;
-    tmp_addr.sin_port        = htons(m_PortNo);
-    tmp_addr.sin_addr.s_addr = ADDR_ANY;
+	m_MyAddress.sin_family      = AF_INET;
+	m_MyAddress.sin_port        = htons(m_PortNo);
+	m_MyAddress.sin_addr.s_addr = ADDR_ANY;
     //アドレスとソケットをバインド
-    if ((bind(m_Socket, (struct sockaddr*)&tmp_addr, sizeof(struct sockaddr))) == SOCKET_ERROR)
+    if ((bind(m_Socket, (struct sockaddr*)&m_MyAddress, sizeof(struct sockaddr))) == SOCKET_ERROR)
     {
         m_Error = SOCKETERROR::ERROR_BIND;
         closesocket(m_Socket);
@@ -150,14 +149,12 @@ void CMySocket::Bind(void)
 // ********************************************************************************
 void CMySocket::Connect(const std::string& ip)
 {
-    //アドレス構造体
-    struct sockaddr_in tmp_addr;
-    memset(&tmp_addr, 0, sizeof(struct sockaddr_in));
+    memset(&m_MyAddress, 0, sizeof(struct sockaddr_in));
     //ネットワークのデータを設定
-    tmp_addr.sin_family      = AF_INET;
-    tmp_addr.sin_port        = htons(m_PortNo);
-    tmp_addr.sin_addr.s_addr = inet_addr(ip.c_str());
-    if (connect(m_Socket, (struct sockaddr*)&tmp_addr, sizeof(struct sockaddr_in)) == SOCKET_ERROR)
+	m_MyAddress.sin_family      = AF_INET;
+	m_MyAddress.sin_port        = htons(m_PortNo);
+	m_MyAddress.sin_addr.s_addr = inet_addr(ip.c_str());
+    if (connect(m_Socket, (struct sockaddr*)&m_MyAddress, sizeof(struct sockaddr_in)) == SOCKET_ERROR)
     {
         closesocket(m_Socket);
         m_Error = SOCKETERROR::ERROR_CONNECT;

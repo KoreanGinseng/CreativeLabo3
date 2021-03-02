@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneDefine.h"
+#include "BackRender.h"
 
 // ********************************************************************************
 /// <summary>
@@ -10,7 +11,17 @@ class CGame : public MyApp::CScene
 {
 private:
 
+	enum Phase
+	{
+		TurnAnimation,
+		PlayerInput,
+		PlayerCheck,
+		EnemyInput,
+		EnemyCheck,
 
+	};
+
+	CBackRender m_BackRender{ CBackRender::Brown };
 
 public:
 

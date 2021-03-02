@@ -73,28 +73,20 @@ int main(void)
 					for (int i = 0; i < s; i++)
 					{
 						overmsg += msg[i];
-						msglength++;
 					}
+					msglength += s;
 					if (msg[s - 1] != '\0')
 					{
 						continue;
 					}
-					std::string str;
-					for (int i = 0; i < msglength; i += overmsg.find('\0', i) + 1)
+					for (int i = 0; i < msglength; i = (overmsg.find('\0', i) + 1))
 					{
-						str = &(overmsg[i]);
+						std::string str = &(overmsg[i]);
 						printf("%d Bytes Receive\n", str.length() + 1);
 						printf("Receive Message : %s\n", str.c_str());
 					}
-					/*do
-					{
-						buff += len;
-						str = &(overmsg[buff]);
-						len = str.length() + 1;
-						printf("%d Bytes Receive\n", len);
-						printf("Receive Message : %s\n", str.c_str());
-					} 
-					while(buff < overmsg.length());*/
+					overmsg   = "";
+					msglength =  0;
 				}
 				else
 				{

@@ -18,7 +18,7 @@ struct ClientData
 /// 複数人接続サーバー
 /// </summary>
 // ********************************************************************************
-class CTCPMultiServer
+class CMultiServer
 {
 protected:
 
@@ -40,7 +40,7 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    explicit CTCPMultiServer(unsigned int multiCount = 10, int portNo = 18900, bool bStart = false);
+    explicit CMultiServer(Protocol prot, unsigned int multiCount = 10, int portNo = 18900, bool bStart = false);
 
     // ********************************************************************************
     /// <summary>
@@ -49,7 +49,7 @@ public:
     /// <created>いのうえ,2021/02/16</created>
     /// <changed>いのうえ,2021/02/16</changed>
     // ********************************************************************************
-    virtual ~CTCPMultiServer(void);
+    virtual ~CMultiServer(void);
 
     // ********************************************************************************
     /// <summary>

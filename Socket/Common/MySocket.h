@@ -1,6 +1,11 @@
 #pragma once
 #include "SocketDefine.h"
 
+// ********************************************************************************
+/// <summary>
+/// 通信プロトコル
+/// </summary>
+// ********************************************************************************
 enum class Protocol
 {
 	TCP,
@@ -28,6 +33,7 @@ protected:
     int                m_Id;                                  //! 接続ID
 	SOCKADDR_IN        m_TellAddress;                         //! 接続してきたアドレス情報
 	struct sockaddr_in m_MyAddress;                           //! アドレス構造体
+	Protocol           m_Protocol;                            //! プロトコル
 
 public:
 
@@ -133,6 +139,32 @@ public:
     {
         closesocket(m_Socket);
     }
+
+	// ********************************************************************************
+	/// <summary>
+	/// プロトコルの設定
+	/// </summary>
+	/// <param name="prot">プロトコル</param>
+	/// <created>いのうえ,2021/03/03</created>
+	/// <changed>いのうえ,2021/03/03</changed>
+	// ********************************************************************************
+	inline void SetProtocol(Protocol prot)
+	{
+		m_Protocol = prot;
+	}
+
+	// ********************************************************************************
+	/// <summary>
+	/// プロトコルの取得
+	/// </summary>
+	/// <returns>プロトコル</returns>
+	/// <created>いのうえ,2021/03/03</created>
+	/// <changed>いのうえ,2021/03/03</changed>
+	// ********************************************************************************
+	inline Protocol GetProtocol(void) const
+	{
+		return m_Protocol;
+	}
 
     // ********************************************************************************
     /// <summary>

@@ -126,12 +126,12 @@
     <ClCompile Include="..\Common\MySocket.cpp" />
     <ClCompile Include="..\Common\SocketDefine.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="TCPMultiServer.cpp" />
+    <ClCompile Include="MultiServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\MySocket.h" />
     <ClInclude Include="..\Common\SocketDefine.h" />
-    <ClInclude Include="TCPMultiServer.h" />
+    <ClInclude Include="MultiServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

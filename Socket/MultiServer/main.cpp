@@ -1,4 +1,4 @@
-#include "TCPMultiServer.h"
+#include "MultiServer.h"
 
 struct GameData : public DataHeader
 {
@@ -13,9 +13,13 @@ struct GameData3 : public DataHeader
     float       data;
 };
 
-class CMyMultiServer : public CTCPMultiServer
+class CMyMultiServer : public CMultiServer
 {
 public:
+	explicit CMyMultiServer(Protocol prot, unsigned int multiCount = 10, int portNo = 18900, bool bStart = false)
+		: CMultiServer(prot, multiCount, portNo, bStart)
+	{
+	}
 
     virtual void Connect(void) override
     {
@@ -53,7 +57,7 @@ public:
 signed main(void)
 {
     CMySocket::StartUp();
-    CMyMultiServer server;
+	CMyMultiServer server(Protocol::TCP);
     server.Start();
 
     printf("Error : %d\n", server.GetError());

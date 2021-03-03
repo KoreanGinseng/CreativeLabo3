@@ -1,4 +1,4 @@
-#include "TCPMultiServer.h"
+#include "MultiServer.h"
 
 // ********************************************************************************
 /// <summary>
@@ -8,7 +8,7 @@
 /// <created>いのうえ,2021/02/16</created>
 /// <changed>いのうえ,2021/02/16</changed>
 // ********************************************************************************
-CTCPMultiServer::CTCPMultiServer(unsigned int multiCount, int portNo, bool bStart)
+CMultiServer::CMultiServer(Protocol prot, unsigned int multiCount, int portNo, bool bStart)
 {
 	m_Client.resize(multiCount);
 	m_IdList.resize(multiCount);
@@ -18,6 +18,7 @@ CTCPMultiServer::CTCPMultiServer(unsigned int multiCount, int portNo, bool bStar
         m_IdList[i].first = i;
     }
 	m_Accept.SetPortNo(portNo);
+	m_Accept.SetProtocol(prot);
 	if (bStart)
 	{
 		Start();
@@ -31,7 +32,7 @@ CTCPMultiServer::CTCPMultiServer(unsigned int multiCount, int portNo, bool bStar
 /// <created>いのうえ,2021/02/16</created>
 /// <changed>いのうえ,2021/02/16</changed>
 // ********************************************************************************
-CTCPMultiServer::~CTCPMultiServer(void)
+CMultiServer::~CMultiServer(void)
 {
 	if (!m_Accept.IsStart())
 	{
@@ -61,7 +62,7 @@ CTCPMultiServer::~CTCPMultiServer(void)
 /// <created>いのうえ,2021/02/16</created>
 /// <changed>いのうえ,2021/02/16</changed>
 // ********************************************************************************
-void CTCPMultiServer::Start(void)
+void CMultiServer::Start(void)
 {
 	m_Accept.Start();
 	//クライアントの情報を初期化
@@ -91,7 +92,7 @@ void CTCPMultiServer::Start(void)
 /// <created>いのうえ,2021/02/18</created>
 /// <changed>いのうえ,2021/02/18</changed>
 // ********************************************************************************
-int CTCPMultiServer::Send(const void * pData, int datalen, const SENDTYPE & sendType, int * ids, int idlen)
+int CMultiServer::Send(const void * pData, int datalen, const SENDTYPE & sendType, int * ids, int idlen)
 {
     switch (sendType)
     {
@@ -118,9 +119,9 @@ int CTCPMultiServer::Send(const void * pData, int datalen, const SENDTYPE & send
 /// <created>いのうえ,2021/02/16</created>
 /// <changed>いのうえ,2021/02/16</changed>
 // ********************************************************************************
-unsigned int __stdcall CTCPMultiServer::RecieveThread(void * pData)
+unsigned int __stdcall CMultiServer::RecieveThread(void * pData)
 {
-    CTCPMultiServer* pms = reinterpret_cast<CTCPMultiServer*>(pData);
+    CMultiServer* pms   = reinterpret_cast<CMultiServer*>(pData);
     ClientData* pClient = nullptr;
     int size = pms->m_Client.size();
     for (int i = 0; i < size; i++)
@@ -171,11 +172,11 @@ unsigned int __stdcall CTCPMultiServer::RecieveThread(void * pData)
 /// <created>いのうえ,2021/02/16</created>
 /// <changed>いのうえ,2021/02/16</changed>
 // ********************************************************************************
-unsigned int __stdcall CTCPMultiServer::AcceptThread(void * pData)
+unsigned int __stdcall CMultiServer::AcceptThread(void * pData)
 {
-    CTCPMultiServer* pms = reinterpret_cast<CTCPMultiServer*>(pData);
+    CMultiServer* pms = reinterpret_cast<CMultiServer*>(pData);
     //ソケットの作成
-    pms->m_Accept.Create(Protocol::TCP);
+    pms->m_Accept.Create(pms->m_Accept.GetProtocol());
     //ソケットをバインド
     pms->m_Accept.Bind();
     //接続待機状態にする
@@ -230,7 +231,7 @@ unsigned int __stdcall CTCPMultiServer::AcceptThread(void * pData)
     return 0;
 }
 
-int CTCPMultiServer::SendBroadCast(const void * pData, int datalen)
+int CMultiServer::SendBroadCast(const void * pData, int datalen)
 {
     int s    = 0;
     int size = m_Client.size();
@@ -241,7 +242,7 @@ int CTCPMultiServer::SendBroadCast(const void * pData, int datalen)
     return s;
 }
 
-int CTCPMultiServer::SendOtherCast(const void * pData, int datalen, int sendid)
+int CMultiServer::SendOtherCast(const void * pData, int datalen, int sendid)
 {
     int s    = 0;
     int size = m_Client.size();
@@ -256,14 +257,14 @@ int CTCPMultiServer::SendOtherCast(const void * pData, int datalen, int sendid)
     return s;
 }
 
-int CTCPMultiServer::SendUniqueCast(const void * pData, int datalen, int id)
+int CMultiServer::SendUniqueCast(const void * pData, int datalen, int id)
 {
     auto v = std::find_if(m_Client.begin(), m_Client.end(), [&](const ClientData& v) {return v.Socket.GetId() == id; });
     int  s = v->Socket.Send(pData, datalen);
     return s;
 }
 
-int CTCPMultiServer::SendMultiCast(const void * pData, int datalen, int * ids, int idlen)
+int CMultiServer::SendMultiCast(const void * pData, int datalen, int * ids, int idlen)
 {
     int s = 0;
     for (int i = 0; i < idlen; i++)
@@ -273,7 +274,7 @@ int CTCPMultiServer::SendMultiCast(const void * pData, int datalen, int * ids, i
     return s;
 }
 
-int CTCPMultiServer::SendOwnerCast(const void * pData, int datalen)
+int CMultiServer::SendOwnerCast(const void * pData, int datalen)
 {
     int s = SendUniqueCast(pData, datalen, m_OwnerId);
     return s;

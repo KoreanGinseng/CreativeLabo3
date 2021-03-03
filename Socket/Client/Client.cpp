@@ -1,4 +1,4 @@
-#include "TCPClient.h"
+#include "Client.h"
 
 // ********************************************************************************
 /// <summary>
@@ -26,8 +26,8 @@ CClient::~CClient(void)
 {
     m_Socket.CloseSocket();
     //スレッドの停止待機
-    WaitForSingleObject(m_hRecieveThread, INFINITE);
-    CloseHandle(m_hRecieveThread);
+    WaitForSingleObject(m_hConnectThread, INFINITE);
+	CloseHandle(m_hConnectThread);
 }
 
 // ********************************************************************************
@@ -53,7 +53,6 @@ void CClient::Start(const char * ip, Protocol prot)
 // ********************************************************************************
 void CClient::Start(Protocol prot)
 {
-	m_Protocol = prot;
     m_Socket.Start();
     //ソケットの作成
     m_Socket.Create(prot);

@@ -1,4 +1,4 @@
-#include "TCPClient.h"
+#include "Client.h"
 
 struct GameData  : public DataHeader
 {
@@ -48,7 +48,7 @@ unsigned main(void)
     CMySocket::StartUp();
     CMyClient client("127.0.0.1");
 
-    client.Start();
+    client.Start(Protocol::TCP);
 
     GameData4 gd0;
     GameData  gd4;

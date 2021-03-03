@@ -126,14 +126,12 @@
     <ClCompile Include="..\Common\MySocket.cpp" />
     <ClCompile Include="..\Common\SocketDefine.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="TCPClient.cpp" />
-    <ClCompile Include="UDPClient.cpp" />
+    <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\MySocket.h" />
     <ClInclude Include="..\Common\SocketDefine.h" />
-    <ClInclude Include="TCPClient.h" />
-    <ClInclude Include="UDPClient.h" />
+    <ClInclude Include="Client.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

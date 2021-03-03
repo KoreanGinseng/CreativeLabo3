@@ -18,8 +18,6 @@ protected:
 
     HANDLE      m_hConnectThread; //! 接続スレッド
 
-	Protocol    m_Protocol;       //! プロトコル
-
 public:
 
 	// ********************************************************************************

@@ -99,6 +99,7 @@ SOCKET * CMySocket::Accept(void)
 // ********************************************************************************
 void CMySocket::Create(Protocol prot)
 {
+	m_Protocol = prot;
     //ソケットの作成
     m_Socket = socket(
 		AF_INET,

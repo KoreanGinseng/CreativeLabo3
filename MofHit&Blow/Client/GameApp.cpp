@@ -40,7 +40,7 @@ MofBool CGameApp::Initialize(void) {
         .Add<CGame        >(SceneName::Game)
         .SetFadeColor(MOF_COLOR_WHITE);
 
-    m_SceneManager.Initialize(SceneName::PlaySetting);
+    m_SceneManager.Initialize(SceneName::Game);
 
 	return TRUE;
 }

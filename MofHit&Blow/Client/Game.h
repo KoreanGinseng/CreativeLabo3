@@ -1,6 +1,8 @@
 #pragma once
 #include "SceneDefine.h"
 #include "BackRender.h"
+#include "ResourceManager.h"
+#include "NumButtons.h"
 
 // ********************************************************************************
 /// <summary>
@@ -18,10 +20,22 @@ private:
 		PlayerCheck,
 		EnemyInput,
 		EnemyCheck,
+		Result,
+	}               m_Phase;
+				    
+	float           m_Timer;
 
-	};
+	sip::CStopWatch m_StopWatch;
 
-	CBackRender m_BackRender{ CBackRender::Brown };
+	CReFontPtr      m_pFont;
+
+	CButton         m_BtnEnter;
+
+	CNumButtons     m_NumButton    { true };
+
+	CNumButtons     m_NumButtonMemo{ true };
+
+	CBackRender     m_BackRender{ CBackRender::Brown };
 
 public:
 

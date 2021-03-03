@@ -1,13 +1,13 @@
 #pragma once
-#include "../TCPSocket/TCPMultiServer.h"
-#include "../TCPSocket/GameDataDefine.h"
+#include "../Socket/MultiServer.h"
+#include "../Socket/GameDataDefine.h"
 
 // ********************************************************************************
 /// <summary>
 /// 
 /// </summary>
 // ********************************************************************************
-class CMyServer : public CTCPMultiServer<GameSendData>
+class CMyServer : public CMultiServer
 {
 protected:
 
@@ -15,6 +15,8 @@ protected:
 
 public:
 
-	virtual void Recieve(const GameSendData& data, int size) override;
+    explicit CMyServer(Protocol prot, unsigned int multiCount = 10, int portNo = 18900, bool bStart = false);
+
+	virtual void Recieve(const DataHeader& header, const void* data, int datalen) override;
 };
 

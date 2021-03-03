@@ -95,7 +95,9 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\TCPSocket\SocketDefine.cpp" />
+    <ClCompile Include="..\Socket\Client.cpp" />
+    <ClCompile Include="..\Socket\MySocket.cpp" />
+    <ClCompile Include="..\Socket\SocketDefine.cpp" />
     <ClCompile Include="BackRender.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="FileDialog.cpp" />
@@ -112,10 +114,10 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\TCPSocket\GameDataDefine.h" />
-    <ClInclude Include="..\TCPSocket\MySocket.h" />
-    <ClInclude Include="..\TCPSocket\SocketDefine.h" />
-    <ClInclude Include="..\TCPSocket\TCPClient.h" />
+    <ClInclude Include="..\Socket\GameDataDefine.h" />
+    <ClInclude Include="..\Socket\MySocket.h" />
+    <ClInclude Include="..\Socket\SocketDefine.h" />
+    <ClInclude Include="..\Socket\Client.h" />
     <ClInclude Include="AssetBase.h" />
     <ClInclude Include="BackRender.h" />
     <ClInclude Include="Button.h" />

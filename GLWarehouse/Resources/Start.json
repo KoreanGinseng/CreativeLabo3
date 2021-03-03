@@ -1,0 +1,47 @@
+{
+    "Actor": {
+        "Active": true,
+        "ColliderRect": {
+            "Layer_": 0,
+            "Rect_": {
+                "Bottom": 70.0,
+                "Left": 0.0,
+                "Right": 220.0,
+                "Top": 0.0
+            }
+        },
+        "Name": "Start",
+        "Parent": "",
+        "Position": {
+            "X": 0.0,
+            "Y": 0.0,
+            "Z": 0.0
+        },
+        "Rotation": {
+            "X": 0.0,
+            "Y": 0.0,
+            "Z": 0.0
+        },
+        "Scale": {
+            "X": 1.0,
+            "Y": 1.0,
+            "Z": 1.0
+        },
+        "StartButton": null,
+        "TextureRender": {
+            "Anchor": {
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 0.0
+            },
+            "Pivot": {
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 0.0
+            },
+            "Priority": 0,
+            "Shader": "Sprite.vert/Sprite.frag",
+            "Texture": "start.png"
+        }
+    }
+}

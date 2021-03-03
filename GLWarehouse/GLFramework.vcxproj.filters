@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Framework">
+      <UniqueIdentifier>{3fa7cbb9-d6c4-4e2c-a8af-50abe18716a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game">
+      <UniqueIdentifier>{91ffa2b3-d2ef-40e8-9eef-cbed674e5cd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Framework">
+      <UniqueIdentifier>{5ca57e62-7a96-4760-b286-eba957be4472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game">
+      <UniqueIdentifier>{621db841-c202-4c41-9510-878a7c728a53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Scene">
+      <UniqueIdentifier>{51629ae5-9aee-4db6-a677-62ddc43e4dde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Scene">
+      <UniqueIdentifier>{5a5a8354-c115-4190-9982-f9afd1b830bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Component">
+      <UniqueIdentifier>{d11bb4df-6de4-4817-8ebf-1926673fc515}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Framework\Sound">
+      <UniqueIdentifier>{7735a624-0b19-4690-b111-1647b4989e8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Framework\Sound">
+      <UniqueIdentifier>{74c74b27-564b-4fa4-89df-8865deecbd02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Framework\Graphics">
+      <UniqueIdentifier>{1d905d6b-112e-4fa7-9af9-2a729febd0b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Framework\Graphics">
+      <UniqueIdentifier>{72597d0d-86ad-4e0a-bd21-1bd366156ff3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Framework\Collision">
+      <UniqueIdentifier>{5c29a490-3709-4be3-9d3d-6de78fb4bb51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Framework\Scene">
+      <UniqueIdentifier>{3f21392f-2378-4530-b7fd-2c2104d4fe65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Framework\Scene">
+      <UniqueIdentifier>{845dd80b-2d34-4835-94b0-a3728ccc3ed3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Framework\Network">
+      <UniqueIdentifier>{7548fc19-1b0c-4658-bf8d-6ff1ca300df5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Framework\Network">
+      <UniqueIdentifier>{84617b0e-f1fd-4292-b592-35588fc72d6c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Framework.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TitleScene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Actor.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Sound\AudioManager.cpp">
+      <Filter>ソース ファイル\Framework\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Sound\Sound.cpp">
+      <Filter>ソース ファイル\Framework\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Sound\WaveFile.cpp">
+      <Filter>ソース ファイル\Framework\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Sound\Listener.cpp">
+      <Filter>ソース ファイル\Framework\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Sound\Speaker.cpp">
+      <Filter>ソース ファイル\Framework\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Texture.cpp">
+      <Filter>ソース ファイル\Framework\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Shader.cpp">
+      <Filter>ソース ファイル\Framework\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\FrameBuffer.cpp">
+      <Filter>ソース ファイル\Framework\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Buffer.cpp">
+      <Filter>ソース ファイル\Framework\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Scene.cpp">
+      <Filter>ソース ファイル\Framework\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Network\Socket.cpp">
+      <Filter>ソース ファイル\Framework\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Network\Server.cpp">
+      <Filter>ソース ファイル\Framework\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Network\Client.cpp">
+      <Filter>ソース ファイル\Framework\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\NetworkScene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Framework\Actor.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Camera.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Framework.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Common.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\FrameTimer.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\World.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Vector3.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\TextureRender.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\SpriteAnimator.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Sprite.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ResourceManager.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ResourceContainer.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ResourceBase.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\InputManager.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Event.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ParameterAnimation.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\KeyFrameAnimation.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameDefine.h">
+      <Filter>ヘッダー ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TitleScene.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\PushMove.h">
+      <Filter>ヘッダー ファイル\Game\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage.h">
+      <Filter>ヘッダー ファイル\Game\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\CellPosition.h">
+      <Filter>ヘッダー ファイル\Game\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\KeyMove.h">
+      <Filter>ヘッダー ファイル\Game\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\GLFramework.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ActorFactory.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\JsonUtillity.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ParserManager.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Sound\Sound.h">
+      <Filter>ヘッダー ファイル\Framework\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Sound\AudioManager.h">
+      <Filter>ヘッダー ファイル\Framework\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Sound\WaveFile.h">
+      <Filter>ヘッダー ファイル\Framework\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Sound\Listener.h">
+      <Filter>ヘッダー ファイル\Framework\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Sound\Speaker.h">
+      <Filter>ヘッダー ファイル\Framework\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Buffer.h">
+      <Filter>ヘッダー ファイル\Framework\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\FrameBuffer.h">
+      <Filter>ヘッダー ファイル\Framework\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Shader.h">
+      <Filter>ヘッダー ファイル\Framework\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Texture.h">
+      <Filter>ヘッダー ファイル\Framework\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\RenderManager.h">
+      <Filter>ヘッダー ファイル\Framework\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Scene.h">
+      <Filter>ヘッダー ファイル\Framework\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\SceneChangeEffect.h">
+      <Filter>ヘッダー ファイル\Framework\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\SceneManager.h">
+      <Filter>ヘッダー ファイル\Framework\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Network\Socket.h">
+      <Filter>ヘッダー ファイル\Framework\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Network\RUDPMessage.h">
+      <Filter>ヘッダー ファイル\Framework\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Collision\CollisionManager.h">
+      <Filter>ヘッダー ファイル\Framework\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Collision\Rectangle.h">
+      <Filter>ヘッダー ファイル\Framework\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Collision\Collider.h">
+      <Filter>ヘッダー ファイル\Framework\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Network\Server.h">
+      <Filter>ヘッダー ファイル\Framework\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Interface.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\SharedInterface.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Network\Client.h">
+      <Filter>ヘッダー ファイル\Framework\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Network\ServerCommon.h">
+      <Filter>ヘッダー ファイル\Framework\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\NetworkScene.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\NetworkKeyMove.h">
+      <Filter>ヘッダー ファイル\Game\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Collision\Circle.h">
+      <Filter>ヘッダー ファイル\Framework\Collision</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,8 +1,13 @@
 #include "MyServer.h"
 
-void CMyServer::Recieve(const GameSendData & data, int size)
+CMyServer::CMyServer(Protocol prot, unsigned int multiCount, int portNo, bool bStart)
+	: CMultiServer(prot, multiCount, portNo, bStart)
 {
-	switch (data.DataType)
+}
+
+void CMyServer::Recieve(const DataHeader& header, const void* data, int datalen)
+{
+	switch ((GameDataType)header.Type)
 	{
 	case GameDataType::None:
 		break;

@@ -1,0 +1,265 @@
+{
+    "Actors": [
+        {
+            "Camera": {
+                "Active": true,
+                "Name": "Camera",
+                "Parent": "",
+                "Position": {
+                    "X": 0.0,
+                    "Y": 0.0,
+                    "Z": 0.0
+                },
+                "Rotation": {
+                    "X": 0.0,
+                    "Y": 0.0,
+                    "Z": 0.0
+                },
+                "Scale": {
+                    "X": 1.0,
+                    "Y": 1.0,
+                    "Z": 1.0
+                }
+            }
+        },
+        {
+            "Actor": {
+                "Active": true,
+                "Name": "Logo",
+                "Parent": "",
+                "Position": {
+                    "X": 0.0,
+                    "Y": 0.0,
+                    "Z": 0.0
+                },
+                "Rotation": {
+                    "X": 0.0,
+                    "Y": 0.0,
+                    "Z": 0.0
+                },
+                "Scale": {
+                    "X": 1.0,
+                    "Y": 1.0,
+                    "Z": 1.0
+                },
+                "TextureRender": {
+                    "Anchor": {
+                        "X": 0.5,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    },
+                    "Pivot": {
+                        "X": 0.5,
+                        "Y": 0.0,
+                        "Z": 0.5
+                    },
+                    "Priority": 0,
+                    "Shader": "Sprite.vert/Sprite.frag",
+                    "Texture": "title.png"
+                }
+            }
+        },
+        {
+            "Actor": {
+                "Active": true,
+                "ColliderRect": {
+                    "Layer_": 0,
+                    "Rect_": {
+                        "Bottom": 70.0,
+                        "Left": 0.0,
+                        "Right": 220.0,
+                        "Top": 0.0
+                    }
+                },
+                "Name": "Start",
+                "Parent": "",
+                "Position": {
+                    "X": 282.0,
+                    "Y": 484.0,
+                    "Z": 0.0
+                },
+                "Rotation": {
+                    "X": 0.0,
+                    "Y": 0.0,
+                    "Z": 0.0
+                },
+                "Scale": {
+                    "X": 1.0,
+                    "Y": 1.0,
+                    "Z": 1.0
+                },
+                "StartButton": null,
+                "TextureRender": {
+                    "Anchor": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    },
+                    "Pivot": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    },
+                    "Priority": 0,
+                    "Shader": "Sprite.vert/Sprite.frag",
+                    "Texture": "start.png"
+                }
+            }
+        },
+        {
+            "Actor": {
+                "Active": true,
+                "ColliderRect": {
+                    "Layer_": 0,
+                    "Rect_": {
+                        "Bottom": 70.0,
+                        "Left": 0.0,
+                        "Right": 220.0,
+                        "Top": 0.0
+                    }
+                },
+                "Name": "NetworkStart",
+                "Parent": "",
+                "Position": {
+                    "X": 522.0,
+                    "Y": 484.0,
+                    "Z": 0.0
+                },
+                "Rotation": {
+                    "X": 0.0,
+                    "Y": 0.0,
+                    "Z": 0.0
+                },
+                "Scale": {
+                    "X": 1.0,
+                    "Y": 1.0,
+                    "Z": 1.0
+                },
+                "TextureRender": {
+                    "Anchor": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    },
+                    "Pivot": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    },
+                    "Priority": 0,
+                    "Shader": "Sprite.vert/Sprite.frag",
+                    "Texture": "start.png"
+                }
+            }
+        },
+        {
+            "Actor": {
+                "Active": true,
+                "ActorFloatAnimation": {
+                    "Animation": {
+                        "Frames": [
+                            {
+                                "Time": 0.0,
+                                "Value": 300.0
+                            },
+                            {
+                                "Time": 5.0,
+                                "Value": 800.0
+                            },
+                            {
+                                "Time": 10.0,
+                                "Value": 300.0
+                            }
+                        ],
+                        "Interpolation": 1,
+                        "Loop": true
+                    },
+                    "Parameter": "Y"
+                },
+                "ColliderRect": {
+                    "Layer_": 0,
+                    "Rect_": {
+                        "Bottom": 86.0,
+                        "Left": 0.0,
+                        "Right": 170.0,
+                        "Top": 0.0
+                    }
+                },
+                "EndButton": null,
+                "Name": "End",
+                "Parent": "",
+                "Position": {
+                    "X": 424.0,
+                    "Y": 584.0,
+                    "Z": 0.0
+                },
+                "Rotation": {
+                    "X": 0.0,
+                    "Y": 0.0,
+                    "Z": 0.0
+                },
+                "Scale": {
+                    "X": 1.0,
+                    "Y": 1.0,
+                    "Z": 1.0
+                },
+                "TextureRender": {
+                    "Anchor": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    },
+                    "Pivot": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    },
+                    "Priority": 0,
+                    "Shader": "Sprite.vert/Sprite.frag",
+                    "Texture": "end.png"
+                },
+                "TextureRenderFloatAnimation": {
+                    "Animation": {
+                        "Frames": [
+                            {
+                                "Time": 0.0,
+                                "Value": 1.0
+                            },
+                            {
+                                "Time": 1.0,
+                                "Value": 0.0
+                            },
+                            {
+                                "Time": 2.0,
+                                "Value": 1.0
+                            }
+                        ],
+                        "Interpolation": 1,
+                        "Loop": true
+                    },
+                    "Parameter": "Alpha"
+                }
+            }
+        }
+    ],
+    "Name": "Title",
+    "Resources": {
+        "Shaders": null,
+        "Sounds": [
+            {
+                "enter": "se_enter.wav"
+            }
+        ],
+        "Textures": [
+            {
+                "title": "title.png"
+            },
+            {
+                "start": "start.png"
+            },
+            {
+                "end": "end.png"
+            }
+        ]
+    }
+}

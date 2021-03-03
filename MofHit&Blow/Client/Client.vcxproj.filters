@@ -24,9 +24,6 @@
     <ClCompile Include="GameApp.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\TCPSocket\SocketDefine.cpp">
-      <Filter>Socket</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceFont.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -63,19 +60,19 @@
     <ClCompile Include="NumButtons.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="..\Socket\SocketDefine.cpp">
+      <Filter>Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Socket\Client.cpp">
+      <Filter>Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Socket\MySocket.cpp">
+      <Filter>Socket</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameApp.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\TCPSocket\MySocket.h">
-      <Filter>Socket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\TCPSocket\SocketDefine.h">
-      <Filter>Socket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\TCPSocket\TCPClient.h">
-      <Filter>Socket</Filter>
     </ClInclude>
     <ClInclude Include="ResourceFont.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -84,9 +81,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\TCPSocket\GameDataDefine.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="StopWatch.h">
@@ -123,6 +117,18 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="NumButtons.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Socket\MySocket.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Socket\SocketDefine.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Socket\Client.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Socket\GameDataDefine.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

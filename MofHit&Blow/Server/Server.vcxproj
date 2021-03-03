@@ -95,16 +95,18 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\TCPSocket\SocketDefine.cpp" />
+    <ClCompile Include="..\Socket\MultiServer.cpp" />
+    <ClCompile Include="..\Socket\MySocket.cpp" />
+    <ClCompile Include="..\Socket\SocketDefine.cpp" />
     <ClCompile Include="GameApp.cpp" />
     <ClCompile Include="MyServer.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\TCPSocket\GameDataDefine.h" />
-    <ClInclude Include="..\TCPSocket\MySocket.h" />
-    <ClInclude Include="..\TCPSocket\SocketDefine.h" />
-    <ClInclude Include="..\TCPSocket\TCPMultiServer.h" />
+    <ClInclude Include="..\Socket\GameDataDefine.h" />
+    <ClInclude Include="..\Socket\MySocket.h" />
+    <ClInclude Include="..\Socket\SocketDefine.h" />
+    <ClInclude Include="..\Socket\MultiServer.h" />
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="MyServer.h" />
   </ItemGroup>

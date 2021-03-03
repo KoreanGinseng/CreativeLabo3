@@ -24,31 +24,37 @@
     <ClCompile Include="GameApp.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\TCPSocket\SocketDefine.cpp">
-      <Filter>Socket</Filter>
-    </ClCompile>
     <ClCompile Include="MyServer.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Socket\SocketDefine.cpp">
+      <Filter>Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Socket\MultiServer.cpp">
+      <Filter>Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Socket\MySocket.cpp">
+      <Filter>Socket</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameApp.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\TCPSocket\MySocket.h">
-      <Filter>Socket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\TCPSocket\SocketDefine.h">
-      <Filter>Socket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\TCPSocket\TCPMultiServer.h">
-      <Filter>Socket</Filter>
-    </ClInclude>
     <ClInclude Include="MyServer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\TCPSocket\GameDataDefine.h">
+    <ClInclude Include="..\Socket\MySocket.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Socket\SocketDefine.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Socket\GameDataDefine.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Socket\MultiServer.h">
+      <Filter>Socket</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

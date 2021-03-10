@@ -97,11 +97,13 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ExecView.cpp" />
     <ClCompile Include="GameApp.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="ExecView.h" />
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="Node\ActionNode.h" />
     <ClInclude Include="Node\CompositeNode.h" />

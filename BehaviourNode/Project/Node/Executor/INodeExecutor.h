@@ -7,9 +7,9 @@ namespace Behaviour {
 
 	//ノードポインタ置き換え
 	template < typename T > class INodeExecutor;
-	template < typename T > using NodeExecutorPtr = std::shared_ptr<INodeExecutor<T>>;
+	template < typename T > using NodeExecutorPtr     = std::shared_ptr<INodeExecutor<T>>;
 	template < typename T > using NodeExecutorWeakPtr = std::weak_ptr<INodeExecutor<T>>;
-	template < typename T > using NodeExecutorList = std::list<NodeExecutorPtr<T>>;
+	template < typename T > using NodeExecutorList    = std::list<NodeExecutorPtr<T>>;
 
 	/** ノード実行用クラス */
 	template < typename T >

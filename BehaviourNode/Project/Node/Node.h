@@ -6,7 +6,7 @@ namespace Behaviour {
 
 	//ノードポインタ置き換えのための前方定義
 	template < typename T > class Node;
-	template < typename T > using NodePtr = std::shared_ptr<Node< T >>;
+	template < typename T > using NodePtr  = std::shared_ptr<Node< T >>;
 	template < typename T > using NodeList = std::list<NodePtr< T >>;
 
 	template < typename T >

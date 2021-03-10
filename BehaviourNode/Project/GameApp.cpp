@@ -1,5 +1,5 @@
 /*************************************************************************//*!
-					
+
 					@file	GameApp.cpp
 					@brief	基本ゲームアプリ。
 
@@ -88,11 +88,11 @@ namespace Behaviour {
 /*************************************************************************//*!
 		@brief			アプリケーションの初期化
 		@param			None
-				
+
 		@return			TRUE		成功<br>
 						それ以外	失敗、エラーコードが戻り値となる
 *//**************************************************************************/
-MofBool CGameApp::Initialize(void){
+MofBool CGameApp::Initialize(void) {
 
 	//適当に配置
 	test->SetPosition(CVector3(0, 100, 0));
@@ -139,11 +139,11 @@ MofBool CGameApp::Initialize(void){
 /*************************************************************************//*!
 		@brief			アプリケーションの更新
 		@param			None
-				
+
 		@return			TRUE		成功<br>
 						それ以外	失敗、エラーコードが戻り値となる
 *//**************************************************************************/
-MofBool CGameApp::Update(void){
+MofBool CGameApp::Update(void) {
 	//キーの更新
 	g_pInput->RefreshKey();
 
@@ -155,15 +155,15 @@ MofBool CGameApp::Update(void){
 /*************************************************************************//*!
 		@brief			アプリケーションの描画
 		@param			None
-				
+
 		@return			TRUE		成功<br>
 						それ以外	失敗、エラーコードが戻り値となる
 *//**************************************************************************/
-MofBool CGameApp::Render(void){
+MofBool CGameApp::Render(void) {
 	//描画開始
 	g_pGraphics->RenderStart();
 	//画面のクリア
-	g_pGraphics->ClearTarget(0.0f,0.0f,1.0f,0.0f,1.0f,0);
+	g_pGraphics->ClearTarget(0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0);
 
 	//アクターのテスト描画
 	test->Render(MOF_COLOR_GREEN);
@@ -180,10 +180,10 @@ MofBool CGameApp::Render(void){
 /*************************************************************************//*!
 		@brief			アプリケーションの解放
 		@param			None
-				
+
 		@return			TRUE		成功<br>
 						それ以外	失敗、エラーコードが戻り値となる
 *//**************************************************************************/
-MofBool CGameApp::Release(void){
+MofBool CGameApp::Release(void) {
 	return TRUE;
 }

@@ -29,7 +29,7 @@ namespace Behaviour {
 			NodeExecutor::Reset();
 			for (auto& ptr : _children)
 			{
-				Reset();
+				ptr->Reset();
 			}
 		}
 	};

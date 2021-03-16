@@ -1,4 +1,5 @@
 #include	"Cpu.h"
+#include    "Fuzzy.h"
 
 /**
  * コンストラクタ
@@ -38,7 +39,7 @@ void CCpu::Initialize(void) {
 	std::shared_ptr<ConditionNode> condition1 = std::make_shared<ConditionNode>();
 	condition1->m_Condition                   = &CCpu::AI_Distance;
 	std::shared_ptr<ConditionNode> condition2 = std::make_shared<ConditionNode>();
-	condition1->m_Condition                   = &CCpu::AI_IsEnemyAttack;
+	condition2->m_Condition                   = &CCpu::AI_IsEnemyAttack;
 	std::shared_ptr<ActionNode> act1          = std::make_shared<ActionNode>();
 	act1->m_Task                              = &CCpu::AI_Guard;
 	std::shared_ptr<ActionNode> act2          = std::make_shared<ActionNode>();
@@ -76,23 +77,23 @@ void CCpu::Update(CCharacter& chara, LPMeshContainer pMesh) {
 		//		ステージメッシュと自分の前方方向のレイによる
 		//		当たり判定をおこない3.0以内に壁があればジャンプをさせる
 		//---------------------------------------------------
-
-		if (m_Condition[0]())
-		{
-			//相手が攻撃中ならガード、それ以外なら攻撃をおこなう
-			if (m_Condition[1]())
-			{
-				m_Task[0]();
-			}
-			else
-			{
-				m_Task[1]();
-			}
-		}
-		else
-		{
-			m_Task[2]();
-		}
+		root->Exec(this);
+		//if (m_Condition[0]())
+		//{
+		//	//相手が攻撃中ならガード、それ以外なら攻撃をおこなう
+		//	if (m_Condition[1]())
+		//	{
+		//		m_Task[0]();
+		//	}
+		//	else
+		//	{
+		//		m_Task[1]();
+		//	}
+		//}
+		//else
+		//{
+		//	m_Task[2]();
+		//}
 
 		//思考時間を再設定
 		m_CpuTime = 0.1f + tl / 20.0f;
@@ -110,7 +111,10 @@ bool CCpu::AI_Distance()
 	CVector3 tv = m_pTarget->GetPosition() - m_Pos;
 	float tl = tv.Length();
 
-	return (tl <= 2.5f);
+	FuzzyRule fr;
+	float distNear = CFuzzyUtilities::Not(CFuzzyUtilities::Grade(tl, 0.0f, 2.5f));
+
+	return static_cast<int>(distNear * 100.0f) > CUtilities::Random(100);
 }
 
 bool CCpu::AI_IsEnemyAttack()

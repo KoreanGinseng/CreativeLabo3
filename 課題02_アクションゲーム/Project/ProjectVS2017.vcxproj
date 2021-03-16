@@ -97,6 +97,7 @@
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Cpu.cpp" />
+    <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="GameApp.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Stage.cpp" />
@@ -105,6 +106,7 @@
   <ItemGroup>
     <ClInclude Include="Character.h" />
     <ClInclude Include="Cpu.h" />
+    <ClInclude Include="Fuzzy.h" />
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="GameDefine.h" />
     <ClInclude Include="Player.h" />
